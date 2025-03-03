@@ -82,31 +82,48 @@ const Game = (() => {
 
 })();
 
-function playGameInConsole() {
-    console.log("Welcome to Tic-Tac-Toe! Enter moves in the format row, col");
-    function getPlayerMove(){
-        // const input = prompt (`Player ${Game.getCurrentPlayer()}, enter your move(row, col):`);
-        // if(!input) return;
+document.addEventListener("DOMContentLoaded", () => {
+    const cells = document.querySelectorAll(".cell");
+    const status = document.getElementById('status');
+    const resetButton = document.getElementById('reset-button');
 
-        const [row,col] = input.split(",").map(Number);
+    function updateStatus() {
+        status.textContent = `Player ${Game.getCurrentPlayer()}'s turn`;
+    }
 
-        if (isNaN(row) || isNaN(col)) {
-            console.log("Invalid format. Enter again");
-            return getPlayerMove();
-        }
+    function handleCellClick(event) {
+        const cell = event.target;
+        const row = parseInt(cell.dataset.row);
+        const col = parseInt(cell.dataset.col);
 
         const result = Game.makeMove(row, col);
-        if(!result.success) return getPlayerMove();
 
-        if(!result.gameOver) {
-            getPlayerMove();
-        }
-        else {
-            Game.resetGame();
-            getPlayerMove();
+        if(result.success) {
+            cell.textContent = Game.getCurrentPlayer() === 'O' ? 'X' : 'O';
+
+            if (result.gameOver) {
+                status.textContent = result.winner ? `Player ${result.winner} wins!` : 'Game is a draw';
+            } else {
+                updateStatus();
+            }
         }
     }
-    getPlayerMove();
-}
 
-playGameInConsole();
+    function resetGame() {
+        Game.resetGame();
+        cells.forEach(cell => {
+            cell.textContent = '';
+        });
+        updateStatus();
+    }
+
+    // Add event listeners
+    cells.forEach(cell => {
+        cell.addEventListener('click', handleCellClick);
+    });
+
+    resetButton.addEventListener('click', resetGame);
+
+    // Initialize the game status
+    updateStatus();
+});
