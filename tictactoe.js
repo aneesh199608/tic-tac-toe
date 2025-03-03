@@ -50,22 +50,30 @@ const Game = (() => {
 
             if(!winner && !isDraw) {
             currentPlayer = currentPlayer === "X" ? "O" : "X";
+            return {success: true, gameOver: false, winner: null};
             }
             else if(winner) {
                 console.log(`Player ${winner} wins`);
+                return { success: true, gameOver: true, winner};
             }
             else {
                 console.log("Game is a draw");
+                return { success: true, gameOver: true, winner: null};
             }
-            return {
-                success: true,
-                gameOver: !!winner || isDraw,
-                winner: winner || null
-            };
         },
 
         getBoard() {
             console.log(board.map(row => [...row]));
+        },
+        resetGame() {
+            board = [
+                ["","",""],
+                ["","",""],
+                ["","",""]
+            ];
+            currentPlayer = "X";
+            console.log("Game has been reset");
+            this.getBoard();
         },
         getCurrentPlayer() {
             return currentPlayer;
@@ -74,9 +82,31 @@ const Game = (() => {
 
 })();
 
-Game.makeMove(0,0);
-Game.makeMove(1,1);
-Game.makeMove(0,1);
-Game.makeMove(1,2);
-Game.makeMove(0,2);
-Game.getBoard(); 
+function playGameInConsole() {
+    console.log("Welcome to Tic-Tac-Toe! Enter moves in the format row, col");
+    function getPlayerMove(){
+        const input = prompt (`Player ${Game.getCurrentPlayer()}, enter your move(row, col):`);
+        if(!input) return;
+
+        const [row,col] = input.split(",").map(Number);
+
+        if (isNaN(row) || isNaN(col)) {
+            console.log("Invalid format. Enter again");
+            return getPlayerMove();
+        }
+
+        const result = Game.makeMove(row, col);
+        if(!result.success) return getPlayerMove();
+
+        if(!result.gameOver) {
+            getPlayerMove();
+        }
+        else {
+            Game.resetGame();
+            getPlayerMove();
+        }
+    }
+    getPlayerMove();
+}
+
+playGameInConsole();
