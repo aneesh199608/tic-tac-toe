@@ -30,7 +30,7 @@ const Game = (() => {
             return board[0][0];
         }
         if(board[0][2] !== "" && board[0][2] === board [1][1] && board[1][1] === board[2][0]) {
-            return board[2][0];
+            return board[0][2];
         }
         return null;
     }
@@ -87,6 +87,8 @@ document.addEventListener("DOMContentLoaded", () => {
     const status = document.getElementById('status');
     const resetButton = document.getElementById('reset-button');
 
+    let isGameOver = false;
+
     function updateStatus() {
         status.textContent = `Player ${Game.getCurrentPlayer()}'s turn`;
     }
@@ -96,12 +98,20 @@ document.addEventListener("DOMContentLoaded", () => {
         const row = parseInt(cell.dataset.row);
         const col = parseInt(cell.dataset.col);
 
+        if (isGameOver || cell.textContent !== '') {
+            return;
+        }
+
+        // Get the current player before making the move
+        const currentPlayer = Game.getCurrentPlayer();
         const result = Game.makeMove(row, col);
 
-        if(result.success) {
-            cell.textContent = Game.getCurrentPlayer() === 'O' ? 'X' : 'O';
+        if (result.success) {
+            // Use the stored currentPlayer value instead of getting it after the move
+            cell.textContent = currentPlayer;
 
             if (result.gameOver) {
+                isGameOver = true;
                 status.textContent = result.winner ? `Player ${result.winner} wins!` : 'Game is a draw';
             } else {
                 updateStatus();
@@ -114,6 +124,7 @@ document.addEventListener("DOMContentLoaded", () => {
         cells.forEach(cell => {
             cell.textContent = '';
         });
+        isGameOver = false;
         updateStatus();
     }
 

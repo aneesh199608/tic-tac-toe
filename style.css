@@ -1,28 +1,61 @@
+@import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&display=swap');
 
+body {
+    display: flex;
+    justify-content: center;
+}
 
 .container {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     align-items: center;
     gap: 24px;
+    font-family: 'Space Grotesk', Arial, Helvetica, sans-serif;
 }
 
 .board {
     display: grid;
     grid-template-columns: repeat(3, 1fr);
     width: 300px;
+    gap: 10px;
 }
 
 .cell {
     height: 100px;
-    border: 2px solid #333;
+    border: 1px solid #333;
     display: flex;
     align-items: center;
     justify-content: center;
     cursor: pointer;
+    font-size: 48px;
 }
 
 .cell:hover {
     background-color: #f0f0f0;
+}
+
+button {
+    background-color: #333;
+    color: white;
+    border: none;
+    padding: 12px 24px;
+    border-radius: 4px;
+    font-family: 'Space Grotesk', Arial, sans-serif;
+    font-size: 16px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+button:hover {
+    background-color: #444;
+    transform: translateY(-1px);
+}
+
+button:active {
+    transform: translateY(1px);
+}
+
+.status {
+    font-size: 24px;
 }
