@@ -1,0 +1,26 @@
+
+
+.container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 24px;
+
+.board {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    width: 300px;
+}
+
+.cell {
+    height: 100px;
+    border: 2px solid #333;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.cell:hover {
+    background-color: #f0f0f0;
+}

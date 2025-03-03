@@ -85,8 +85,8 @@ const Game = (() => {
 function playGameInConsole() {
     console.log("Welcome to Tic-Tac-Toe! Enter moves in the format row, col");
     function getPlayerMove(){
-        const input = prompt (`Player ${Game.getCurrentPlayer()}, enter your move(row, col):`);
-        if(!input) return;
+        // const input = prompt (`Player ${Game.getCurrentPlayer()}, enter your move(row, col):`);
+        // if(!input) return;
 
         const [row,col] = input.split(",").map(Number);
 
